@@ -9,10 +9,10 @@ export interface ChatMessageResponse {
   reply: string;
 }
 
-if (!import.meta.env.VITE_API_BASE_URL) {
-  throw new Error("VITE_API_BASE_URL is not defined");
+if (!import.meta.env.VITE_API_URL) {
+  throw new Error("VITE_API_URL is not defined");
 }
-const API_URL = import.meta.env.VITE_API_BASE_URL;
+const API_URL = import.meta.env.VITE_API_URL;
 
 const CHAT_ENDPOINT = `${API_URL}/chat/message`;
 
