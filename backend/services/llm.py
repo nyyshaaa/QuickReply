@@ -15,9 +15,9 @@ async def generate_agent_reply(
     and recent conversation history.
     """
 
-    prompt = _build_prompt(history, user_message)
-
     try:
+        prompt = _build_prompt(history, user_message)
+
         response = _gem_client.models.generate_content(
             model = _gem_model,  
             contents = prompt,

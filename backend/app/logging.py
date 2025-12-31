@@ -12,3 +12,5 @@ def setup_logging() -> None:
             logging.StreamHandler(sys.stdout),
         ],
     )
+
+logger = logging.getLogger(__name__)

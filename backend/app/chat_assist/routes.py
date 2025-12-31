@@ -1,5 +1,5 @@
 
-import logging
+from backend.app.logging import logger
 from fastapi import APIRouter, Depends, HTTPException, Request, status
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -10,7 +10,6 @@ from backend.db.dependencies import get_session
 from backend.services.llm import generate_agent_reply
 from backend.services.utils import LLMError
 
-logger = logging.getLogger(__name__)
 
 
 chat_assit_router=APIRouter()
@@ -25,7 +24,7 @@ async def post_chat_message(
     # ---- Get or create conversation (idempotent & concurrency/retries safe) ----
     conversation = await get_or_create_conversation(
         session=session,
-        session_id=payload.session_id,
+        session_id=payload.session_id
     )
 
     conversation_id = conversation["id"]
@@ -40,7 +39,7 @@ async def post_chat_message(
     history = await fetch_recent_history(
         session,
         conversation_id,
-        limit = 8 
+        limit = 5 
     )
 
     history_payload = [
