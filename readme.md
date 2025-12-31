@@ -8,7 +8,7 @@
 
 3. programmer bug handled by central handler
 return row  
-# return {"id": row[0], "session_id": row[1]}
+return {"id": row[0], "session_id": row[1]}
 <img width="1005" height="696" alt="image" src="https://github.com/user-attachments/assets/6052de14-ca05-4815-bccc-847db71882ae" />
 
 4. succcess resp 
@@ -21,8 +21,13 @@ _gem_model = "gemini-1.5-flash"
 
 <img width="1025" height="694" alt="image" src="https://github.com/user-attachments/assets/0d37d416-a2c0-41e7-a559-467221e50106" />
 
+-----------------------------------------------------------------------------------------------------------------------------------
+
 <img width="458" height="687" alt="image" src="https://github.com/user-attachments/assets/929c4bc4-23ea-4391-9019-816ab8564d42" />
 <img width="456" height="269" alt="image" src="https://github.com/user-attachments/assets/db380b60-2c4b-4fe4-bef3-70d123842ac7" />
+
+-----------------------------------------------------------------------------------------------------------------------------------
+
 
 
 
