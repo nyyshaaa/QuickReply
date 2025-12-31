@@ -4,10 +4,11 @@ from fastapi import Depends, FastAPI
 from backend.db.connection import async_engine,async_session
 from backend.api.__init__ import cur_version
 from backend.api.routers import public_routers
-
+from backend.app.logging import setup_logging
 
 @asynccontextmanager
 async def app_lifespan(app: FastAPI):
+    setup_logging()
 
     try:
         yield

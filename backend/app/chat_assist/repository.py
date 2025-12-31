@@ -1,6 +1,6 @@
 
-
-from sqlalchemy import insert, select
+from sqlalchemy.dialects.postgresql import insert 
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from backend.schema.schema import Conversations, Messages
 
@@ -38,8 +38,8 @@ async def get_or_create_conversation(
     
 async def record_message(
     session: AsyncSession,
-    *,
     conversation_id: int,
+    *,
     sender: str,
     input_message: str,
 ) -> None:
@@ -53,7 +53,6 @@ async def record_message(
 
 async def fetch_recent_history(
     session: AsyncSession,
-    *,
     conversation_id: int,
     limit: int = 10,
 ) -> list[Messages]:

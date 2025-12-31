@@ -1,42 +1,26 @@
 
-from google import genai
 from typing import List, Dict
 
-client = genai.Client()
+from backend.services.utils import LLMError, _build_prompt
+from backend.services.__init__ import _gem_client,_gem_model
 
 
-SYSTEM_PROMPT = """
-
-"""
-
-class LLMError(Exception):
-    pass
-
-
-def generate_reply(
+async def generate_agent_reply(
+    *,
     history: List[Dict[str, str]],
     user_message: str,
 ) -> str:
+    """
+    Generates an AI reply using Gemini, conditioned on domain knowledge
+    and recent conversation history.
+    """
+
+    prompt = _build_prompt(history, user_message)
+
     try:
-        model = genai.GenerativeModel("gemini-1.5-flash")
-
-        prompt_parts = [
-            SYSTEM_PROMPT,
-            "\nConversation history:\n",
-        ]
-
-        for msg in history:
-            role = "User" if msg["sender"] == "user" else "Agent"
-            prompt_parts.append(f"{role}: {msg['text']}\n")
-
-        prompt_parts.append(f"User: {user_message}\nAgent:")
-
-        response = model.generate_content(
-            "".join(prompt_parts),
-            generation_config={
-                "temperature": 0.3,
-                "max_output_tokens": 300,
-            },
+        response = _gem_client.models.generate_content(
+            model = _gem_model,  
+            contents = prompt,
         )
 
         if not response.text:
@@ -44,5 +28,14 @@ def generate_reply(
 
         return response.text.strip()
 
-    except Exception as e:
-        raise LLMError(str(e))
+    except LLMError:
+        raise
+
+    # timeout , rate limit , invalid key , network error can be handled more specifcially by extra checks , 
+    # for now we just log the exc in the outer handler with actual reason . 
+    # catching here to re-raise so that they are not caught by fastapi error handlker without recording the error message .
+    except Exception as exc:
+        # unexpected provider / SDK / network issues
+        raise LLMError("LLM service unavailable") from exc
+
+

@@ -47,7 +47,7 @@ class Messages(SQLModel, table=True):
 
     sender: str = Field(
         sa_column=Column(
-            Enum("user", "ai", name="message_sender"),
+            Enum("user", "ai", "system", name="message_sender"),
             nullable=False,
         )
     )

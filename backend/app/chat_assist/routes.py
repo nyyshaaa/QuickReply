@@ -1,13 +1,17 @@
 
-
+import logging
 from fastapi import APIRouter, Depends, HTTPException, Request, status
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
-
 from backend.app.chat_assist.models import ChatRequest
 from backend.app.chat_assist.dependencies import normalize_chat_request
 from backend.app.chat_assist.repository import fetch_recent_history, get_or_create_conversation, record_message
 from backend.db.dependencies import get_session
+from backend.services.llm import generate_agent_reply
+from backend.services.utils import LLMError
+
+logger = logging.getLogger(__name__)
+
 
 chat_assit_router=APIRouter()
 
@@ -25,16 +29,18 @@ async def post_chat_message(
     )
 
     conversation_id = conversation["id"]
+    conversation_pid = conversation["session_id"]
 
     # ---- Persist user message ----
-    await record_message(session,conversation_id,sender="user",text=payload.message)
+    await record_message(session,conversation_id,sender="user",input_message=payload.message)
 
     await session.commit()
 
     # ---- Fetch recent history ----
     history = await fetch_recent_history(
         session,
-        conversation_id
+        conversation_id,
+        limit = 8 
     )
 
     history_payload = [
@@ -42,6 +48,36 @@ async def post_chat_message(
         for m in history
     ]
 
+    try:
+        reply = await generate_agent_reply(
+            history=history_payload,
+            user_message=payload.message,
+        )
+        sender = "ai"
+
+    except LLMError as exc:
+        logger.warning(
+        "LLM failed to generate reply",
+        extra={
+            "conversation_id": conversation_id,
+        },
+        exc_info=exc, 
+    )
+        reply = (
+            "Having trouble responding right now. ")
+        sender="system"
+
+    await record_message(session,conversation_id,sender=sender,input_message=reply)
+
+    await session.commit()
+
+    return {
+        "session_id": conversation_pid,
+        "reply": {
+            "sender": sender,
+            "text": reply,
+        },
+    }
     
 
    
