@@ -252,6 +252,7 @@ http://localhost:5173
 * Make history context better insated of just using recent 5-8 chats 
 * Add metrics, tracing, and structured logging
 * Implement channel abstraction (Web / WhatsApp / IG)
+* Add more test cases and explain the flow more clearly 
 
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -495,6 +496,7 @@ For the deployed app --
 <img width="1444" height="832" alt="image" src="https://github.com/user-attachments/assets/4e2caa54-ffae-49a8-889b-5787c09c3825" />
 
 <img width="1434" height="471" alt="image" src="https://github.com/user-attachments/assets/aa18861e-318f-4e51-b0f8-be7e9d3d5f0a" />
+
 
 
 
