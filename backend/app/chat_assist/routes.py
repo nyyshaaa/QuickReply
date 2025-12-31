@@ -72,12 +72,10 @@ async def post_chat_message(
     await session.commit()
 
     return {
-        "session_id": conversation_pid,
-        "reply": {
-            "sender": sender,
-            "text": reply,
-        },
+        "session_id": str(conversation_pid),
+        "reply": reply,
     }
+
     
 
    
