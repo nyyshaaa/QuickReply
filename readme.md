@@ -1,5 +1,8 @@
 See the steps to run locally below after examples --
 
+BACKEND API URL -- https://quickreply-2rsr.onrender.com/ (quickly wake up backend first)(db is deployed on neon)
+FRONTEND URL -- https://quickyytalk.netlify.app/
+
 1. success resp
 <img width="1005" height="696" alt="image" src="https://github.com/user-attachments/assets/b949bf25-8ceb-41e2-b247-1a4e570f29b5" />
 
@@ -469,6 +472,12 @@ With more time, this design can be extended to:
 * Metrics and alerting around AI failure rates
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+For the deployed app --
+<img width="1444" height="832" alt="image" src="https://github.com/user-attachments/assets/4e2caa54-ffae-49a8-889b-5787c09c3825" />
+
+<img width="1434" height="471" alt="image" src="https://github.com/user-attachments/assets/aa18861e-318f-4e51-b0f8-be7e9d3d5f0a" />
+
+
 
 
 
