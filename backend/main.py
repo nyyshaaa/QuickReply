@@ -23,11 +23,6 @@ def create_app():
     
     app.include_router(public_routers)
 
-   
-   
-    
-   
-    
     return app
  
 app=create_app()

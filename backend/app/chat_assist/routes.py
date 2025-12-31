@@ -1,8 +1,10 @@
 
+
 from fastapi import APIRouter, Depends, HTTPException, Request, status
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from backend.app.chat_assist import ChatRequest
+from backend.app.chat_assist.models import ChatRequest
 from backend.app.chat_assist.dependencies import normalize_chat_request
 from backend.app.chat_assist.repository import fetch_recent_history, get_or_create_conversation, record_message
 from backend.db.dependencies import get_session
@@ -40,6 +42,12 @@ async def post_chat_message(
         for m in history
     ]
 
-   
+    
 
+   
+@chat_assit_router.get("/health")
+async def health_check(request: Request,session: AsyncSession = Depends(get_session)):
+    stmt = select(1)
+    await session.execute(stmt)
+    return {"status": "ok"}
     
