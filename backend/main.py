@@ -5,6 +5,7 @@ from backend.app.custom_exceptions import register_all_exceptions
 from backend.db.connection import async_engine,async_session
 from backend.api.__init__ import cur_version
 from backend.api.routers import public_routers
+from fastapi.middleware.cors import CORSMiddleware
 from backend.app.logging import setup_logging
 
 @asynccontextmanager
@@ -24,6 +25,15 @@ def create_app():
         lifespan=app_lifespan)
     
     app.include_router(public_routers)
+    
+    #** allow everything for now
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
+
 
     register_all_exceptions(app)
 

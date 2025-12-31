@@ -9,7 +9,7 @@ export interface ChatMessageResponse {
   reply: string;
 }
 
-const API_URL = import.meta.env.VITE_API_BASE_URL ?? "http://localhost:8000";
+const API_URL = import.meta.env.VITE_API_BASE_URL ?? "http://localhost:8000/api/v1";
 const CHAT_ENDPOINT = `${API_URL}/chat/message`;
 
 const MAX_MESSAGE_LENGTH = 1500;
