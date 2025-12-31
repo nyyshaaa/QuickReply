@@ -1,7 +1,7 @@
 See the steps to run locally below after examples --
 
-BACKEND API URL -- https://quickreply-2rsr.onrender.com/ (quickly wake up backend first)(db is deployed on neon)
-FRONTEND URL -- https://quickyytalk.netlify.app/
+> BACKEND API URL -- https://quickreply-2rsr.onrender.com/ (quickly wake up backend first)(db is deployed on neon)
+> FRONTEND URL -- https://quickyytalk.netlify.app/
 
 1. success resp
 <img width="1005" height="696" alt="image" src="https://github.com/user-attachments/assets/b949bf25-8ceb-41e2-b247-1a4e570f29b5" />
@@ -140,18 +140,15 @@ The LLM logic is fully encapsulated in a service layer (`services/llm.py`).
 
   * Caught and normalized via a custom `LLMError`
   * User receives a friendly fallback message
-  * Backend does not crash
-* **Invalid input**:
-
-  * Handled via request validation
+  * Backend logs actual exceptions 
+* **client errors(e.g. invalid input)**:
+  * Handled via request validation to send clean messages to client 
 * **Unexpected bugs / invariant violations**:
 
   * Bubble to a global exception handler
   * Logged with stack trace
   * Returned as generic 500 errors
-
-Graceful failure is preferred over silent failure or crashes.
-
+    
 ---
 
 ## Setup & Running Locally
@@ -184,6 +181,7 @@ Create a `.env` file:
 GEMINI_API_KEY=your_api_key_here
 DATABASE_URL=postgresql+asyncpg://user:password@localhost/dbname
 SYNC_DB_URL=postgresql://user:password@localhost/dbname   #for alembic migs
+ENV=dev
 ```
 
 ---
@@ -206,6 +204,27 @@ Server will run at:
 ```
 http://localhost:8000
 ```
+
+Frontend Setup
+1. Install dependencies
+cd frontend
+npm install
+npm run dev
+
+3. Configure frontend environment
+
+Create .env in frontend/:
+
+VITE_API_URL=http://localhost:8000/api/v1   #added api prefix here , prefer not to use prefix here and use inside code logic separately 
+
+
+3. Start frontend dev server
+npm run dev
+
+
+Frontend will be available at:
+
+http://localhost:5173
 
 ---
 
@@ -476,6 +495,7 @@ For the deployed app --
 <img width="1444" height="832" alt="image" src="https://github.com/user-attachments/assets/4e2caa54-ffae-49a8-889b-5787c09c3825" />
 
 <img width="1434" height="471" alt="image" src="https://github.com/user-attachments/assets/aa18861e-318f-4e51-b0f8-be7e9d3d5f0a" />
+
 
 
 
