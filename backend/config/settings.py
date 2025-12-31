@@ -1,3 +1,4 @@
+import os
 from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
@@ -7,7 +8,10 @@ class Settings(BaseSettings):
     GEMINI_API_KEY : str
 
     class Config:
-        env_file = ".env"
-        extra="ignore"
+        # Load .env ONLY in local development
+        env_file = ".env" if os.getenv("ENV") != "production" else None
+        case_sensitive = True
+        extra = "ignore"
+
 
 config_settings = Settings()
